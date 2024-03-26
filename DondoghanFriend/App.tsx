@@ -17,7 +17,7 @@ function App(): React.JSX.Element {
                 createFromLocation: "~www/TestDB.db",
             },
             DB => {
-                console.log("불러오기 성공!");
+                console.log("불러오기 성공!!");
                 setDB(DB);
             },
             error => {
