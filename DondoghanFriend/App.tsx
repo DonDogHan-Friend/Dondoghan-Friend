@@ -6,7 +6,6 @@ import { VictoryPie, VictoryTheme } from "victory-native";
 import SQLite from "react-native-sqlite-storage";
 import TestSQLite from "./src/TestSQLite.tsx";
 
-let db: SQLite.SQLiteDatabase;
 function App(): React.JSX.Element {
     const [DB, setDB] = React.useState<SQLite.SQLiteDatabase | null>(null);
     React.useEffect(() => {
@@ -17,7 +16,7 @@ function App(): React.JSX.Element {
                 createFromLocation: "~www/TestDB.db",
             },
             DB => {
-                console.log("불러오기 성공!!!!!");
+                console.log("불러오기 성공!!!!!!");
                 setDB(DB);
             },
             error => {
