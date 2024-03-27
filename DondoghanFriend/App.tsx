@@ -1,118 +1,150 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React from "react";
+import { Dimensions, SafeAreaView, ScrollView, Text, View } from "react-native";
+import { LineChart, PieChart } from "react-native-chart-kit";
+import { Chip } from "react-native-paper";
+import { VictoryPie, VictoryTheme } from "victory-native";
+import SQLite from "react-native-sqlite-storage";
+import TestSQLite from "./src/TestSQLite.tsx";
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
+let db: SQLite.SQLiteDatabase;
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+    const [DB, setDB] = React.useState<SQLite.SQLiteDatabase | null>(null);
+    React.useEffect(() => {
+        SQLite.openDatabase(
+            {
+                name: "TestDB.db",
+                location: "default",
+                createFromLocation: "~www/TestDB.db",
+            },
+            DB => {
+                console.log("불러오기 성공!!!!!");
+                setDB(DB);
+            },
+            error => {
+                console.log("에러발생: ", error);
+            },
+        );
+    }, []);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+    return (
+        <SafeAreaView>
+            <ScrollView className="h-full w-full">
+                {DB && <TestSQLite db={DB} />}
+                <View className="h-12 bg-gray-500 flex justify-center">
+                    <Text className="font-bold text-3xl text-white text-center">
+                        TEST
+                    </Text>
+                </View>
+                <View className="mt-4">
+                    <Text className="font-bold text-lg text-black text-left p-2">
+                        Line Chart
+                    </Text>
+                    <LineChart
+                        data={{
+                            labels: ["1월", "2월", "3월", "4월", "5월"],
+                            datasets: [
+                                {
+                                    data: [100, 200, 300, 120, 150],
+                                    color: (opacity = 1) =>
+                                        `rgba(0, 0, 0, ${opacity})`,
+                                },
+                            ],
+                        }}
+                        width={Dimensions.get("window").width}
+                        height={200}
+                        yAxisLabel="$"
+                        chartConfig={{
+                            backgroundGradientFrom: "#fff",
+                            backgroundGradientTo: "#fff",
+                            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                        }}
+                        bezier
+                    />
+                </View>
+                <View className="mt-4">
+                    <Text className="font-bold text-lg text-black text-left p-2">
+                        Pie Chart
+                    </Text>
+                    <VictoryPie
+                        data={[
+                            { x: "Cats", y: 35 },
+                            { x: "Dogs", y: 40 },
+                            { x: "Birds", y: 55 },
+                        ]}
+                        theme={VictoryTheme.material}
+                    />
+                    <PieChart
+                        data={[
+                            {
+                                name: "Seoul",
+                                population: 130,
+                                color: "black",
+                                legendFontColor: "#7F7F7F",
+                                legendFontSize: 15,
+                            },
+                            {
+                                name: "Beijing",
+                                population: 120,
+                                color: "gray",
+                                legendFontColor: "#7F7F7F",
+                                legendFontSize: 15,
+                            },
+                            {
+                                name: "New York",
+                                population: 300,
+                                color: "darkgray",
+                                legendFontColor: "#7F7F7F",
+                                legendFontSize: 15,
+                            },
+                            {
+                                name: "Moscow",
+                                population: 120,
+                                color: "lightgray",
+                                legendFontColor: "#7F7F7F",
+                                legendFontSize: 15,
+                            },
+                        ]}
+                        width={Dimensions.get("window").width}
+                        height={200}
+                        accessor="population"
+                        chartConfig={{
+                            backgroundGradientFrom: "#fff",
+                            backgroundGradientTo: "#fff",
+                            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+                        }}
+                        paddingLeft="15"
+                        backgroundColor="transparent"
+                        absolute
+                    />
+                </View>
+                <View className="mt-4">
+                    <Text className="font-bold text-lg text-black text-left p-2">
+                        UI
+                    </Text>
+                    <View className="flex flex-row">
+                        <Chip
+                            mode="outlined"
+                            className="w-24 mr-2 bg-white"
+                            onPress={() => console.log("PRESSED")}>
+                            Example
+                        </Chip>
+                        <Chip
+                            mode="outlined"
+                            className="w-24 mr-2 bg-white"
+                            onPress={() => console.log("PRESSED")}>
+                            Example
+                        </Chip>
+                        <Chip
+                            mode="outlined"
+                            className="w-24 bg-white"
+                            onPress={() => console.log("PRESSED")}>
+                            Example
+                        </Chip>
+                    </View>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
+    );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
