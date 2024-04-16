@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { SQLiteDatabase } from "react-native-sqlite-storage";
 import { Button, View } from "react-native";
-import { connectToDatabase, cudToDatabase, getToDatabase } from "./utils/db.ts";
+import {
+    connectToDatabase,
+    cudToDatabase,
+    getToDatabase,
+} from "../../utils/db.ts";
 
 const TestSQLite = () => {
     const [db, setDb] = useState<SQLiteDatabase | null>(null);
     const [users, setUsers] = useState<any[]>([]);
+
+    console.log("users", users);
 
     useEffect(() => {
         loadDatabase();
