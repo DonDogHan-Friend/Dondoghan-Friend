@@ -8,6 +8,42 @@ import TestSQLite from "./src/TestSQLite.tsx";
 
 function App(): React.JSX.Element {
     const [DB, setDB] = React.useState<SQLite.SQLiteDatabase | null>(null);
+
+    const readQuery = () => {
+        DB?.transaction(tx => {
+            tx.executeSql(`SELECT * FROM user;`, [], (tx, results) => {
+                const rows = results.rows;
+
+                for (let i = 0; i < rows.length; i++) {
+                    console.log("test: ", rows.item(i));
+                }
+            });
+        });
+    };
+    const updateQuery = () => {
+        DB?.transaction(tx => {
+            tx.executeSql(
+                'UPDATE user SET age="30" WHERE id="1"',
+                [],
+                (tx, results) => {
+                    console.log(">>>update success : ", results.rows);
+                },
+            );
+        });
+    };
+
+    const deleteQuery = () => {
+        DB?.transaction(tx => {
+            tx.executeSql(
+                'DELETE FROM user WHERE age="21"',
+                [],
+                (tx, results) => {
+                    console.log(">>>delete success : ", results.rows);
+                },
+            );
+        });
+    };
+
     React.useEffect(() => {
         SQLite.openDatabase(
             {
@@ -124,20 +160,29 @@ function App(): React.JSX.Element {
                         <Chip
                             mode="outlined"
                             className="w-24 mr-2 bg-white"
-                            onPress={() => console.log("PRESSED")}>
-                            Example
+                            onPress={() => {
+                                readQuery();
+                                console.log("PRESSED");
+                            }}>
+                            READ
                         </Chip>
                         <Chip
                             mode="outlined"
                             className="w-24 mr-2 bg-white"
-                            onPress={() => console.log("PRESSED")}>
-                            Example
+                            onPress={() => {
+                                updateQuery();
+                                console.log("PRESSED UPDATE BUTTON");
+                            }}>
+                            UPDATE
                         </Chip>
                         <Chip
                             mode="outlined"
-                            className="w-24 bg-white"
-                            onPress={() => console.log("PRESSED")}>
-                            Example
+                            className="w-24 mr-2 bg-white"
+                            onPress={() => {
+                                deleteQuery();
+                                console.log("PRESSED DELETE BUTTON");
+                            }}>
+                            DELETE
                         </Chip>
                     </View>
                 </View>
