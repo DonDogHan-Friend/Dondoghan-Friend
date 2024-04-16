@@ -3,32 +3,14 @@ import { Dimensions, SafeAreaView, ScrollView, Text, View } from "react-native";
 import { LineChart, PieChart } from "react-native-chart-kit";
 import { Chip } from "react-native-paper";
 import { VictoryPie, VictoryTheme } from "victory-native";
-import SQLite from "react-native-sqlite-storage";
 import TestSQLite from "./src/TestSQLite.tsx";
 
 function App(): React.JSX.Element {
-    const [DB, setDB] = React.useState<SQLite.SQLiteDatabase | null>(null);
-    React.useEffect(() => {
-        SQLite.openDatabase(
-            {
-                name: "TestDB.db",
-                location: "default",
-                createFromLocation: "~www/TestDB.db",
-            },
-            DB => {
-                console.log("불러오기 성공!!!!!!");
-                setDB(DB);
-            },
-            error => {
-                console.log("에러발생: ", error);
-            },
-        );
-    }, []);
-
     return (
         <SafeAreaView>
             <ScrollView className="h-full w-full">
-                {DB && <TestSQLite db={DB} />}
+                <TestSQLite />
+                {/*{DB && <TestSQLite db={DB} />}*/}
                 <View className="h-12 bg-gray-500 flex justify-center">
                     <Text className="font-bold text-3xl text-white text-center">
                         TEST
