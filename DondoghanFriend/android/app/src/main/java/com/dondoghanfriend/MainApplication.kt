@@ -12,6 +12,7 @@ import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.react.flipper.ReactNativeFlipper
 import com.facebook.soloader.SoLoader
 // import org.pgsqlite.SQLitePluginPackage
+// import com.oblador.vectoricons.VectorIconsPackage
 
 class MainApplication : Application(), ReactApplication {
 
@@ -22,6 +23,7 @@ class MainApplication : Application(), ReactApplication {
               // Packages that cannot be autolinked yet can be added manually here, for example:
               // add(MyReactNativePackage())
               // add(SQLitePluginPackage())
+              // add(VectorIconsPackage())
             }
 
         override fun getJSMainModuleName(): String = "index"
