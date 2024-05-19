@@ -2,6 +2,7 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Text } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import MyPage from "../myPage/MyPage";
 
 const Tab = createBottomTabNavigator();
 
@@ -16,10 +17,6 @@ function CalendarScreen() {
 
 function ChartScreen() {
     return <Text>Chart</Text>;
-}
-
-function MyPageScreen() {
-    return <Text>My Page</Text>;
 }
 
 function Main() {
@@ -57,11 +54,12 @@ function Main() {
             />
             <Tab.Screen
                 name="MyPage"
-                component={MyPageScreen}
+                component={MyPage}
                 options={{
                     title: "내 정보",
+                    headerShown: false,
                     tabBarIcon: ({ color, size }) => (
-                        <Icon name="home" color={color} size={size} />
+                        <Icon name="person" color={color} size={size} />
                     ),
                 }}
             />
