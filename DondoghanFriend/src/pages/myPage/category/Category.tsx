@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Text, View, Pressable, ScrollView } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
+
 import CategoryItem from "./components/CategoryItem.tsx";
 
 const Category = () => {

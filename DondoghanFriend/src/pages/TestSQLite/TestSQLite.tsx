@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { SQLiteDatabase } from "react-native-sqlite-storage";
 import { Button, View } from "react-native";
+import { SQLiteDatabase } from "react-native-sqlite-storage";
+
 import {
     connectToDatabase,
     cudToDatabase,
