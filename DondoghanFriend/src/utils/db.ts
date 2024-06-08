@@ -31,14 +31,22 @@ export const getToDatabase = async <Data>({
 }) => {
     try {
         await db.transaction((tx) => {
-            tx.executeSql(query, [], (_, results) => {
-                const rows = results.rows;
-                const data: any[] = [];
-                for (let index = 0; index < rows.length; index++) {
-                    data.push(rows.item(index));
-                }
-                setData(data);
-            });
+            tx.executeSql(
+                query,
+                [],
+                (_, results) => {
+                    const rows = results.rows;
+                    console.log("rows", rows);
+                    const data: any[] = [];
+                    for (let index = 0; index < rows.length; index++) {
+                        data.push(rows.item(index));
+                    }
+                    setData(data);
+                },
+                (error) => {
+                    console.log("error", error);
+                },
+            );
         });
     } catch (error) {
         console.error(error);
@@ -59,12 +67,19 @@ export const cudToDatabase = async ({
     console.log("query", query);
     try {
         await db.transaction((tx) => {
-            tx.executeSql(query, Object.values(data), (_, results) => {
-                console.log("resutls", results);
-                if (results.rowsAffected > 0) {
-                    console.log("성공하였습니다.");
-                }
-            });
+            tx.executeSql(
+                query,
+                Object.values(data),
+                (_, results) => {
+                    console.log("results", results);
+                    if (results.rowsAffected > 0) {
+                        console.log("성공하였습니다.");
+                    }
+                },
+                (error) => {
+                    console.log("error", error);
+                },
+            );
         });
     } catch (error) {
         console.error(error);
