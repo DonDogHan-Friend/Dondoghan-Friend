@@ -32,7 +32,9 @@ const RadioButton = ({
                     onPress={() => onChangeRadio(item.value)}
                     activeOpacity={1}>
                     <View className="flex-row items-center justify-items-center h-7 mr-2">
-                        <View className="rounded-full border w-5 h-5 mr-2 relative" />
+                        <View
+                            className={`rounded-full border w-5 h-5 mr-2 relative ${data === item.value ? "border-blue-400 border-2" : ""}`}
+                        />
                         <View
                             className={
                                 data === item.value
