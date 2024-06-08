@@ -6,9 +6,9 @@ module.exports = {
             "module-resolver",
             {
                 root: ["./src"],
-                extensions: [".ts", ".tsx"],
                 alias: {
                     "@": "./src",
+                    "@components": "./src/components",
                 },
             },
         ],
