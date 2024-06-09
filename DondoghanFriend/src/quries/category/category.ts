@@ -24,3 +24,11 @@ export const createCategory = async ({
         data,
     });
 };
+
+export const deleteCategory = async ({ db, data }: QueryProps<any>) => {
+    await cudToDatabase({
+        db,
+        query: `Delete from category where id = ?`,
+        data,
+    });
+};

@@ -7,11 +7,12 @@ import { CategoryData } from "@/quries/category/type.ts";
 
 type CategoryItemProps = {
     item: CategoryData;
+    onDelete(id: number): void;
 };
 
 type swipeDirection = "left" | "right" | null;
 
-const CategoryItem = ({ item }: CategoryItemProps) => {
+const CategoryItem = ({ item, onDelete }: CategoryItemProps) => {
     const [direction, setDirection] = useState<swipeDirection>(null);
 
     const onPressDelete = (reset: any) => {
@@ -20,7 +21,7 @@ const CategoryItem = ({ item }: CategoryItemProps) => {
             "삭제하시겠습니까?",
             [
                 { text: "취소", style: "cancel", onPress: () => reset() },
-                { text: "확인", onPress: () => {} },
+                { text: "확인", onPress: () => onDelete(item.id) },
             ],
             {
                 cancelable: true,

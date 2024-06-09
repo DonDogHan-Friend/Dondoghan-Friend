@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { SQLiteDatabase } from "react-native-sqlite-storage";
+import { useFocusEffect } from "@react-navigation/native";
 
-import { getCategory } from "@/quries/category/category.ts";
+import { deleteCategory, getCategory } from "@/quries/category/category.ts";
 import { CategoryData, CategoryType } from "@/quries/category/type.ts";
 import { getDonDogHanDBConnection } from "@/utils/connectDb.ts";
 
@@ -17,11 +18,19 @@ const Category = () => {
         getDonDogHanDBConnection().then((database) => setDb(database));
     }, []);
 
-    useEffect(() => {
+    useFocusEffect(
+        useCallback(() => {
+            db &&
+                getCategory({ db, type: categoryType, setData: setCategorys });
+        }, [db, categoryType]),
+    );
+
+    const onDelete = (id: number) => {
         if (db) {
+            deleteCategory({ db, data: { id } });
             getCategory({ db, type: categoryType, setData: setCategorys });
         }
-    }, [db, categoryType]);
+    };
 
     const onPressCategoryType = (type: CategoryType) => {
         setCategoryType(type);
@@ -46,8 +55,19 @@ const Category = () => {
                 </Pressable>
             </View>
             <ScrollView>
+                {categorys.length === 0 && (
+                    <View className="flex items-center">
+                        <Text className="font-bold">
+                            + 를 눌러 새로운 카테고리를 추가하세요.
+                        </Text>
+                    </View>
+                )}
                 {categorys.map((category, index) => (
-                    <CategoryItem key={index} item={category} />
+                    <CategoryItem
+                        key={index}
+                        item={category}
+                        onDelete={onDelete}
+                    />
                 ))}
             </ScrollView>
         </View>
