@@ -64,7 +64,7 @@ const AddCategory = ({ navigation, route }: NativeStackScreenProps<any>) => {
     };
 
     return (
-        <View className="p-2 bg-white h-full">
+        <View className="p-3 bg-white h-full">
             <View className="mt-4">
                 <View className="flex-row mb-3">
                     <Text className="text-md text-gray-800">유형</Text>
