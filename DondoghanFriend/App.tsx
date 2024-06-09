@@ -52,6 +52,22 @@ function App(): React.JSX.Element {
                         ),
                     })}
                 />
+                <Stack.Screen
+                    name={"UpdateCategory"}
+                    component={AddCategory}
+                    options={({ navigation }) => ({
+                        title: "카테고리 수정",
+                        headerBackVisible: false,
+                        headerTitleAlign: "center",
+                        headerLeft: (props) => (
+                            <TouchableOpacity
+                                {...props}
+                                onPress={() => navigation.navigate("Category")}>
+                                <Icon name="close" size={30} color={"black"} />
+                            </TouchableOpacity>
+                        ),
+                    })}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     );

@@ -1,4 +1,8 @@
-import { AddCategoryFormData, CategoryType } from "@/quries/category/type.ts";
+import {
+    AddCategoryData,
+    CategoryType,
+    UpdateCategoryData,
+} from "@/quries/category/type.ts";
 import { GetQueryProps, QueryProps } from "@/types/queryType.ts";
 import { cudToDatabase, getToDatabase } from "@/utils/db.ts";
 
@@ -17,10 +21,21 @@ export const getCategory = async ({
 export const createCategory = async ({
     db,
     data,
-}: QueryProps<AddCategoryFormData>) => {
+}: QueryProps<AddCategoryData>) => {
     await cudToDatabase({
         db,
-        query: `INSERT INTO category (name, type, emoji, 'order') VALUES (?, ?, ?, ?)`,
+        query: `INSERT INTO category (name, type, emoji, 'order') VALUES (?, ?, ?, 0)`,
+        data,
+    });
+};
+
+export const updateCategory = async ({
+    db,
+    data,
+}: QueryProps<UpdateCategoryData>) => {
+    await cudToDatabase({
+        db,
+        query: `Update category set name = ?, type = ?, emoji = ? where id = ?`,
         data,
     });
 };

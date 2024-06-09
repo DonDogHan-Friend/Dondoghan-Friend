@@ -12,17 +12,17 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import _ from "lodash";
 
 import { RadioButton } from "@/components";
-import { createCategory } from "@/quries/category/category.ts";
-import { AddCategoryFormData } from "@/quries/category/type";
+import { createCategory, updateCategory } from "@/quries/category/category.ts";
+import { AddCategoryData } from "@/quries/category/type";
 import { getDonDogHanDBConnection } from "@/utils/connectDb.ts";
 
-const AddCategory = ({ navigation }: NativeStackScreenProps<any>) => {
+const AddCategory = ({ navigation, route }: NativeStackScreenProps<any>) => {
+    const isUpdate = !!route.params?.data;
     const [db, setDb] = useState<SQLiteDatabase | null>(null);
-    const [form, setForm] = useState<AddCategoryFormData>({
-        name: "",
-        type: "OUT",
-        emoji: "",
-        order: 0,
+    const [form, setForm] = useState<AddCategoryData>({
+        name: route.params?.data?.name ?? "",
+        type: route.params?.data?.type ?? "OUT",
+        emoji: route.params?.data?.emoji ?? "",
     });
     const [errors, setErrors] = useState<Array<string>>([]);
     const [isShowEmojiSelector, setIsShowEmojiSelect] =
@@ -52,8 +52,15 @@ const AddCategory = ({ navigation }: NativeStackScreenProps<any>) => {
         if (tempErrors.length > 0) return setErrors(tempErrors);
         setErrors([]);
 
-        db && createCategory({ db, data: form });
-        navigation.navigate("Category");
+        if (db) {
+            !isUpdate
+                ? createCategory({ db, data: form })
+                : updateCategory({
+                      db,
+                      data: { ...form, id: route.params?.data?.id },
+                  });
+            navigation.navigate("Category");
+        }
     };
 
     return (
@@ -98,7 +105,9 @@ const AddCategory = ({ navigation }: NativeStackScreenProps<any>) => {
                     </Text>
                 )}
             </View>
-            <Pressable onPress={() => setIsShowEmojiSelect((prev) => !prev)}>
+            <Pressable
+                className="h-20 w-20"
+                onPress={() => setIsShowEmojiSelect((prev) => !prev)}>
                 <View
                     className={`border ${errors.includes("emoji") ? "border-red-400" : "border-gray-400"}  rounded w-20 h-20 flex-row items-center justify-center mb-3`}>
                     {form?.emoji ? (
@@ -125,7 +134,9 @@ const AddCategory = ({ navigation }: NativeStackScreenProps<any>) => {
             <TouchableOpacity
                 className="mt-4 h-11 rounded flex justify-center items-center bg-blue-400"
                 onPress={onPressSave}>
-                <Text className="text-white text-lg font-bold">추가</Text>
+                <Text className="text-white text-lg font-bold">
+                    {!isUpdate ? "추가" : "수정"}
+                </Text>
             </TouchableOpacity>
         </View>
     );

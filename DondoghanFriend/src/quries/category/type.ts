@@ -8,9 +8,15 @@ export type CategoryData = {
     type: CategoryType;
 };
 
-export type AddCategoryFormData = {
+export type AddCategoryData = {
     name: string;
     type: CategoryType;
     emoji: string;
-    order: number;
+};
+
+export type UpdateCategoryData = {
+    id: number;
+    name: string;
+    type: CategoryType;
+    emoji: string;
 };
