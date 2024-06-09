@@ -1,8 +1,8 @@
 import React from "react";
 import { Dimensions, SafeAreaView, ScrollView, Text, View } from "react-native";
 import { LineChart, PieChart } from "react-native-chart-kit";
-import { VictoryPie, VictoryTheme } from "victory-native";
 import { Chip } from "react-native-paper";
+import { VictoryPie, VictoryTheme } from "victory-native";
 
 const TestChart = () => {
     return (

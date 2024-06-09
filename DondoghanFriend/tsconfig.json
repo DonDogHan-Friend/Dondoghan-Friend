@@ -1,3 +1,11 @@
 {
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@components/*": ["src/components/*"],
+    }
+  },
   "extends": "@react-native/typescript-config/tsconfig.json"
 }
