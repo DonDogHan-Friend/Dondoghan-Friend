@@ -4,6 +4,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
+import { AddIncomeExpendView } from "@/pages/Calendar/AddIncomeExpendView.tsx";
 import { AddCategory } from "@/pages/myPage";
 import Category from "@/pages/myPage/category/Category.tsx";
 
@@ -63,6 +64,22 @@ function App(): React.JSX.Element {
                             <TouchableOpacity
                                 {...props}
                                 onPress={() => navigation.navigate("Category")}>
+                                <Icon name="close" size={30} color={"black"} />
+                            </TouchableOpacity>
+                        ),
+                    })}
+                />
+                <Stack.Screen
+                    name={"AddIncomeExpend"}
+                    component={AddIncomeExpendView}
+                    options={({ navigation }) => ({
+                        title: "내역 추가",
+                        headerBackVisible: false,
+                        headerTitleAlign: "center",
+                        headerLeft: (props) => (
+                            <TouchableOpacity
+                                {...props}
+                                onPress={() => navigation.goBack()}>
                                 <Icon name="close" size={30} color={"black"} />
                             </TouchableOpacity>
                         ),
