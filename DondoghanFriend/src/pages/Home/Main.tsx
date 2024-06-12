@@ -4,16 +4,12 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import MyPage from "../myPage/MyPage";
+import CalendarView from "@/pages/Calendar/CalendarView.tsx";
 
 const Tab = createBottomTabNavigator();
 
 function HomeScreen() {
     return <Text>Home</Text>;
-}
-
-function CalendarScreen() {
-    return <Text>Calendar</Text>;
-    // return <CalendarView />;
 }
 
 function ChartScreen() {
@@ -35,7 +31,7 @@ function Main() {
             />
             <Tab.Screen
                 name="Calendar"
-                component={CalendarScreen}
+                component={CalendarView}
                 options={{
                     title: "달력",
                     tabBarIcon: ({ color, size }) => (
