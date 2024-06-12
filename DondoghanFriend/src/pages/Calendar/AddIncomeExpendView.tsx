@@ -82,7 +82,7 @@ const AddIncomeExpendView = ({
                       db,
                       data: { ...form, id: route.params?.data?.id },
                   });
-            navigation.navigate("CalendarView");
+            navigation.goBack();
         }
     };
 

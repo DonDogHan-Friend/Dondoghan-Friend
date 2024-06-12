@@ -1,6 +1,6 @@
+import { AddFinanceData, UpdateFinanceData } from "@/quries/finance/type.ts";
 import { GetQueryProps, QueryProps } from "@/types/queryType.ts";
 import { cudToDatabase, getToDatabase } from "@/utils/db.ts";
-import { AddFinanceData, UpdateFinanceData } from "@/quries/finance/type.ts";
 
 export const getFinance = async ({ db, setData }: GetQueryProps<any>) => {
     await getToDatabase<any>({
@@ -17,7 +17,14 @@ export const createFinance = async ({
     await cudToDatabase({
         db,
         query: `INSERT INTO finance (type, categoryType, price, detail, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?)`,
-        data,
+        data: {
+            type: "IN",
+            categoryType: "work",
+            price: 10000,
+            detail: "test",
+            createdAt: "2024-06-12",
+            updatedAt: "2024-06-12",
+        },
     });
 };
 
