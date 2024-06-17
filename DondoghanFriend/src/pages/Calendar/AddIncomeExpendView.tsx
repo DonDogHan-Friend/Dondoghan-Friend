@@ -18,7 +18,6 @@ const AddIncomeExpendView = ({
     route,
 }: NativeStackScreenProps<any>) => {
     const isUpdate = !!route.params?.data;
-
     const [categorys, setCategorys] = useState<CategoryData[]>([]);
     const [categoryItems, setCategoryItems] = useState([
         { label: "Apple", value: "apple" },
@@ -30,6 +29,7 @@ const AddIncomeExpendView = ({
     const [errors, setErrors] = useState<Array<string>>([]);
 
     const [form, setForm] = useState<AddFinanceData>({
+        calendarDate: route.params?.selectedDate ?? "",
         type: route.params?.data?.type ?? "OUT",
         categoryType: route.params?.data?.categoryType ?? "",
         detail: route.params?.data?.detail ?? "",
@@ -40,8 +40,6 @@ const AddIncomeExpendView = ({
     const onChangeRadio = (id: string, value: string) => {
         setForm((prev) => ({ ...prev, [id]: value }));
     };
-    console.log("form>>", form);
-    console.log("categoryItems>>", categoryItems);
 
     useEffect(() => {
         getDonDogHanDBConnection().then((database) => setDb(database));

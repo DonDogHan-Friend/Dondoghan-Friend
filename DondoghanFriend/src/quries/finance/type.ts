@@ -11,6 +11,7 @@ export type financeData = {
 };
 
 export type AddFinanceData = {
+    calendarDate?: string;
     type?: FinanceType;
     categoryType?: string;
     price?: number;

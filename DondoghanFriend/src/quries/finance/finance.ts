@@ -16,15 +16,8 @@ export const createFinance = async ({
 }: QueryProps<AddFinanceData>) => {
     await cudToDatabase({
         db,
-        query: `INSERT INTO finance (type, categoryType, price, detail, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?)`,
-        data: {
-            type: "IN",
-            categoryType: "work",
-            price: 10000,
-            detail: "test",
-            createdAt: "2024-06-12",
-            updatedAt: "2024-06-12",
-        },
+        query: `INSERT INTO finance (calendarDate, type, categoryType, detail, price, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        data: data,
     });
 };
 
