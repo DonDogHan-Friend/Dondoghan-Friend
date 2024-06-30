@@ -5,8 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import CalendarView from "@/pages/Calendar/CalendarView.tsx";
 import HomePage from "@/pages/homePage/HomePage.tsx";
-
-import MyPage from "../myPage/MyPage";
+import MyPage from "@/pages/myPage/MyPage";
 
 const Tab = createBottomTabNavigator();
 
@@ -23,8 +22,9 @@ function Main() {
                 options={{
                     title: "홈",
                     headerShown: false,
+                    tabBarShowLabel: false,
                     tabBarIcon: ({ color, size }) => (
-                        <Icon name="home" color={color} size={size} />
+                        <Icon name="home" color={color} size={size + 5} />
                     ),
                 }}
             />
@@ -33,8 +33,13 @@ function Main() {
                 component={CalendarView}
                 options={{
                     title: "달력",
+                    tabBarShowLabel: false,
                     tabBarIcon: ({ color, size }) => (
-                        <Icon name="calendar-today" color={color} size={size} />
+                        <Icon
+                            name="calendar-today"
+                            color={color}
+                            size={size + 5}
+                        />
                     ),
                 }}
             />
@@ -43,8 +48,13 @@ function Main() {
                 component={ChartScreen}
                 options={{
                     title: "통계",
+                    tabBarShowLabel: false,
                     tabBarIcon: ({ color, size }) => (
-                        <Icon name="leaderboard" color={color} size={size} />
+                        <Icon
+                            name="leaderboard"
+                            color={color}
+                            size={size + 5}
+                        />
                     ),
                 }}
             />
@@ -54,8 +64,9 @@ function Main() {
                 options={{
                     title: "내 정보",
                     headerShown: false,
+                    tabBarShowLabel: false,
                     tabBarIcon: ({ color, size }) => (
-                        <Icon name="person" color={color} size={size} />
+                        <Icon name="person" color={color} size={size + 5} />
                     ),
                 }}
             />
