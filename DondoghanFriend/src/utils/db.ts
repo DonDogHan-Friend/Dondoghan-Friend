@@ -1,5 +1,6 @@
-import React from "react";
 import { openDatabase, SQLiteDatabase } from "react-native-sqlite-storage";
+
+import { GetQueryProps } from "@/types/queryType.ts";
 
 export const connectToDatabase = async ({
     name,
@@ -24,12 +25,10 @@ export const getToDatabase = async <Data>({
     db,
     query,
     setData,
-}: {
-    db: SQLiteDatabase;
-    query: string;
-    setData: React.Dispatch<React.SetStateAction<Data[]>>;
-}) => {
+    setCustomData,
+}: { query: string } & GetQueryProps<Data>) => {
     try {
+        console.log("query", query);
         await db.transaction((tx) => {
             tx.executeSql(
                 query,
@@ -41,7 +40,8 @@ export const getToDatabase = async <Data>({
                     for (let index = 0; index < rows.length; index++) {
                         data.push(rows.item(index));
                     }
-                    setData(data);
+                    setData?.(data);
+                    setCustomData?.(data);
                 },
                 (error) => {
                     console.log("error", error);
