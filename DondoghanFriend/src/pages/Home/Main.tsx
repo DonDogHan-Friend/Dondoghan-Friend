@@ -3,14 +3,12 @@ import { Text } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import MyPage from "../myPage/MyPage";
 import CalendarView from "@/pages/Calendar/CalendarView.tsx";
+import HomePage from "@/pages/homePage/HomePage.tsx";
+
+import MyPage from "../myPage/MyPage";
 
 const Tab = createBottomTabNavigator();
-
-function HomeScreen() {
-    return <Text>Home</Text>;
-}
 
 function ChartScreen() {
     return <Text>Chart</Text>;
@@ -21,9 +19,10 @@ function Main() {
         <Tab.Navigator initialRouteName="Home">
             <Tab.Screen
                 name="Home"
-                component={HomeScreen}
+                component={HomePage}
                 options={{
                     title: "홈",
+                    headerShown: false,
                     tabBarIcon: ({ color, size }) => (
                         <Icon name="home" color={color} size={size} />
                     ),
@@ -35,7 +34,7 @@ function Main() {
                 options={{
                     title: "달력",
                     tabBarIcon: ({ color, size }) => (
-                        <Icon name="home" color={color} size={size} />
+                        <Icon name="calendar-today" color={color} size={size} />
                     ),
                 }}
             />
@@ -45,7 +44,7 @@ function Main() {
                 options={{
                     title: "통계",
                     tabBarIcon: ({ color, size }) => (
-                        <Icon name="home" color={color} size={size} />
+                        <Icon name="leaderboard" color={color} size={size} />
                     ),
                 }}
             />
