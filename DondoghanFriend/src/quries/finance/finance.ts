@@ -27,7 +27,7 @@ export const updateFinance = async ({
 }: QueryProps<UpdateFinanceData>) => {
     await cudToDatabase({
         db,
-        query: `Update finance set type = ?, categoryType = ?, price = ?, detail = ?, createdAt = ?, updatedAt = ? where id = ?`,
+        query: `Update finance set type = ?, categoryType = ?, detail = ?, price = ?, updatedAt = ? where id = ?`,
         data,
     });
 };

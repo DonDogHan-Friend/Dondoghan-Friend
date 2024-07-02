@@ -14,6 +14,7 @@ import { SQLiteDatabase } from "react-native-sqlite-storage";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { ListItem } from "@rneui/base";
+import dayjs from "dayjs";
 
 import { deleteFinance, getFinance } from "@/quries/finance/finance.ts";
 import { getDonDogHanDBConnection } from "@/utils/connectDb.ts";
@@ -22,28 +23,13 @@ const CalendarView = () => {
     const navigation = useNavigation();
     const [db, setDb] = useState<SQLiteDatabase | null>(null);
 
-    const [selectedDate, setSelectedDate] = useState<any>("");
+    const [selectedDate, setSelectedDate] = useState<any>(
+        dayjs().format("YYYY-MM-DD"),
+    );
     const [direction, setDirection] = useState<any>(null);
 
     const [calendarItems, setCalendarItems] = useState<any>([]);
-    const [items, setItems] = useState<any>({
-        "2024-06-08": [
-            { name: "Event 1", type: "expend", price: 10000 },
-            { name: "Event 2", type: "income", price: 20000 },
-        ],
-        "2024-06-09": [{ name: "Event 3", type: "expend", price: 20000 }],
-        "2024-06-10": [
-            { name: "Event 4", type: "income", price: 10000 },
-            { name: "Event 5", type: "expenditure", price: 5000 },
-            { name: "Event 6", type: "expenditure", price: 5000 },
-        ],
-    });
-    const [isAddingEvent, setIsAddingEvent] = useState(false);
-    const [newEvent, setNewEvent] = useState({
-        name: "",
-        type: "expenditure",
-        price: 0,
-    });
+    const [items, setItems] = useState<any>({});
 
     const renderDayComponent = ({ date, state }: any) => {
         const dayString = date.dateString;
@@ -121,7 +107,9 @@ const CalendarView = () => {
                     justifyContent: "space-between",
                 }}>
                 <View style={{ flexDirection: "row", flex: 1 }}>
-                    <Text style={{ fontSize: 16, flex: 1 }}>{item.detail}</Text>
+                    <Text style={{ fontSize: 16, flex: 1 }}>
+                        {item.categoryType}
+                    </Text>
                     <Text style={{ fontSize: 16, flex: 1, color: "gray" }}>
                         {item.price}
                     </Text>
@@ -131,6 +119,7 @@ const CalendarView = () => {
                             navigation.navigate(
                                 "AddIncomeExpend" as never,
                                 {
+                                    isUpdate: true,
                                     data: item,
                                 } as never,
                             )
@@ -162,17 +151,6 @@ const CalendarView = () => {
             },
             {} as Record<string, any[]>,
         );
-    };
-
-    const handleAddEvent = () => {
-        if (newEvent.name && newEvent.price) {
-            setItems((prevItems: any) => ({
-                ...prevItems,
-                [selectedDate]: [...(prevItems[selectedDate] || []), newEvent],
-            }));
-            setNewEvent({ name: "", type: "expenditure", price: 0 });
-            setIsAddingEvent(false);
-        }
     };
 
     const onDelete = (id: number) => {
@@ -225,8 +203,6 @@ const CalendarView = () => {
         }
     }, [items]);
 
-    console.log("calendarItems >>>", calendarItems);
-
     return (
         <View style={{ flex: 1 }}>
             <Calendar
@@ -248,7 +224,8 @@ const CalendarView = () => {
                             navigation.navigate(
                                 "AddIncomeExpend" as never,
                                 {
-                                    selectedDate: selectedDate,
+                                    isUpdate: false,
+                                    data: { calendarDate: selectedDate },
                                 } as never,
                             )
                         }
@@ -260,35 +237,15 @@ const CalendarView = () => {
                     keyExtractor={(item, index) => index.toString()}
                 />
             </View>
-            {/*{isAddingEvent && (*/}
-            {/*    <View style={styles.addEventContainer}>*/}
-            {/*        <Text style={styles.addEventTitle}>새 이벤트 추가</Text>*/}
-            {/*        <TextInput*/}
-            {/*            style={styles.input}*/}
-            {/*            placeholder="이벤트 이름"*/}
-            {/*            value={newEvent.name}*/}
-            {/*            onChangeText={(text) =>*/}
-            {/*                setNewEvent({ ...newEvent, name: text })*/}
-            {/*            }*/}
-            {/*        />*/}
-            {/*        <TextInput*/}
-            {/*            style={styles.input}*/}
-            {/*            placeholder="가격"*/}
-            {/*            keyboardType="numeric"*/}
-            {/*            value={newEvent.price.toString()}*/}
-            {/*            onChangeText={(text) =>*/}
-            {/*                setNewEvent({ ...newEvent, price: parseInt(text) })*/}
-            {/*            }*/}
-            {/*        />*/}
-            {/*        <View style={styles.buttonContainer}>*/}
-            {/*            <Button*/}
-            {/*                title="취소"*/}
-            {/*                onPress={() => setIsAddingEvent(false)}*/}
-            {/*            />*/}
-            {/*            <Button title="추가" onPress={handleAddEvent} />*/}
+            {/*<View style={styles.container}>*/}
+            {/*    <Button title="Show panel" onPress={showPanel} />*/}
+            {/*    <SlidingUpPanel ref={panelRef}>*/}
+            {/*        <View style={styles.panelContainer}>*/}
+            {/*            <Text>Here is the content inside panel</Text>*/}
+            {/*            <Button title="Hide" onPress={hidePanel} />*/}
             {/*        </View>*/}
-            {/*    </View>*/}
-            {/*)}*/}
+            {/*    </SlidingUpPanel>*/}
+            {/*</View>*/}
         </View>
     );
 };
@@ -372,6 +329,20 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
+    },
+    container: {
+        flex: 1,
+        backgroundColor: "white",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    panelContainer: {
+        flex: 1,
+        backgroundColor: "white",
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        justifyContent: "center",
+        alignItems: "center",
     },
 });
 
