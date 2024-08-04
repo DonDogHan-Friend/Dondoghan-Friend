@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import CalendarView from "@/pages/Calendar/CalendarView.tsx";
 import HomePage from "@/pages/homePage/HomePage.tsx";
 import MyPage from "@/pages/myPage/MyPage";
+import { StatisticsPage } from "@/pages/statistics";
 
 const Tab = createBottomTabNavigator();
 
@@ -45,9 +46,10 @@ function Main() {
             />
             <Tab.Screen
                 name="Chart"
-                component={ChartScreen}
+                component={StatisticsPage}
                 options={{
                     title: "통계",
+                    headerShown: false,
                     tabBarShowLabel: false,
                     tabBarIcon: ({ color, size }) => (
                         <Icon
