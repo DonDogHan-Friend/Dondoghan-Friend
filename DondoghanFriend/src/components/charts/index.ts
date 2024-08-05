@@ -1,1 +1,2 @@
-export * from './PieChart.tsx'
+export * from "./BarChart.tsx";
+export * from "./PieChart.tsx";
